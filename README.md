@@ -82,7 +82,8 @@ Das geht  auf dieser Seite: https://github.com/join?source=header-home
 
 Wählen sie bei der Registrierung den `Free Plan` aus.
 
-Außerdem müssen sie `git` von hier https://github.com/git-for-windows/git/releases/download/v2.19.1.windows.1/Git-2.19.1-64-bit.exe installieren.
+Außerdem müssen sie `git` von hier       https://github.com/git-for-windows/git/releases/download/v2.19.1.windows.1/Git-2.19.1-64-bit.exe    
+installieren.
 
 Führen sie dann noch (in einem Command-Fenster) folgenden Befehl aus:   
 `git config --global credential.helper wincred`
