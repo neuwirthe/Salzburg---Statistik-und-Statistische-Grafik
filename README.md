@@ -65,10 +65,13 @@ pkgs_to_install <- c(
 "writexl",
 "Dykstra",
 "quadprog",
-"devtools"
+"devtools",
+"tinytex"
 )
 
 install.packages(pkgs_to_install)
+library(tinytex)
+install_tinytex()
 ```
 
 und führen sie diesen Code aus (dazu einfach Return drücken)
