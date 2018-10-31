@@ -89,7 +89,14 @@ Führen sie dann noch (in einem Command-Fenster) folgenden Befehl aus:
 `git config --global credential.helper wincred`
 
 
+#### Andere Betriebssysteme
 
+Wenn sie Linux oder MacOS verwenden Installieren sie bitte R und Rstudio
+von den genannten Websites (es gibt dort auch Versionen für diese Betriebssysteme).    
+Eine Github account sollten sie ebenfalls anlegen.   
+Git müssen sie ebenfalls installieren. Zur Installation ziehen
+sie das Internet zu Raten.     
+Unter MacOS ist für solche Utilities die Installation von homebrew (https://brew.sh) sehr zu empfehlen.
 
 	
 	
