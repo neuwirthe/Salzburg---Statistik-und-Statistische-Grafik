@@ -70,6 +70,8 @@ pkgs_to_install <- c(
 )
 
 install.packages(pkgs_to_install)
+# Falls sie keine Versions von TeX (z.B. MiKTeX) installiert haben
+# entfernen sie die #-Zeichen der beiden folgenden Zeilen, damit die auch ausgef`uuhrt werden,
 library(tinytex)
 install_tinytex()
 ```
