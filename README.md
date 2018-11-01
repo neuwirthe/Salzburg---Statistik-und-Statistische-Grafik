@@ -77,6 +77,8 @@ pkgs_to_install <- c(
 "rworldxtra",
 "rayshader"
 )
+
+install.packages(pkgs_to_install)
 ```
 Danach führen sie folgenden Befehl aus 
 
