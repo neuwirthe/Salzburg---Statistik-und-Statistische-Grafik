@@ -115,7 +115,7 @@ Unter MacOS ist für solche Utilities die Installation von homebrew (https://bre
 
 ### Spreadsheets
 
-Auf Windows und MacOS sollten sie auch Microsoft Excel und Microsoft Word und/oder Libreoffice installiert haben, auf Linux Libreoffice.
+Auf Windows und MacOS sollten sie auch Microsoft Excel und Microsoft Word und/oder LibreOffice (https://www.libreoffice.org) installiert haben, auf Linux LibreOffice.
 
 	
 	
