@@ -65,18 +65,24 @@ pkgs_to_install <- c(
 "writexl",
 "Dykstra",
 "quadprog",
-"devtools",
-"tinytex"
+"devtools"
 )
+```
 
-install.packages(pkgs_to_install)
-# Falls sie keine Versions von TeX (z.B. MiKTeX) installiert haben
-# entfernen sie die #-Zeichen der beiden folgenden Zeilen, damit die auch ausgef`uuhrt werden,
+und führen sie diesen Code aus (dazu einfach Return drücken)
+
+```
+install.packages("tinytex")
 library(tinytex)
 install_tinytex()
 ```
 
-und führen sie diesen Code aus (dazu einfach Return drücken)
+Wenn sie auf ihrem Rechner `TeX` noch nicht installiert haben, dann
+führen sie auch folgenden Code aus:
+
+
+
+
 
 #### Github
 
@@ -103,6 +109,9 @@ Git müssen sie ebenfalls installieren. Zur Installation ziehen
 sie das Internet zu Raten.     
 Unter MacOS ist für solche Utilities die Installation von homebrew (https://brew.sh) sehr zu empfehlen.
 
-	
+### Spreadsheets
+
+Auf Windows und MacOS sollten sie auch Microsoft Excel und Microsoft Word und/oder Libreoffice installiert haben, auf Linux Libreoffice.
+
 	
 	
