@@ -57,6 +57,7 @@ pkgs_to_install <- c(
 "ggmap",
 "ggrepel",
 "ggwordcloud",
+"egg",
 "scales",
 "sf",
 "maptools",
