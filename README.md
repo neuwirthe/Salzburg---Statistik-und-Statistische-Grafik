@@ -50,6 +50,7 @@ pkgs_to_install <- c(
 "gganimate",
 "ggtree",
 "ggExtra",
+"gridExtra",
 "ggthemes",
 "ggThemeAssist",
 "ggplot2movies",
