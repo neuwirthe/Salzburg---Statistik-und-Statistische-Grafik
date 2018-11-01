@@ -1,6 +1,6 @@
 # Statistik und Statistische Grafik
 
-### LV Nr 	405.365
+### LV Nr 405.365
 
 
 ### Vorbereitung zur LV
@@ -92,6 +92,10 @@ Das Herunterladen der Materialien geht einfacher, wenn sie auch noch einen Githu
 Das geht  auf dieser Seite: https://github.com/join?source=header-home
 
 Wählen sie bei der Registrierung den `Free Plan` aus.
+
+Achtung: Free Plan heißt, dass ihre Dateien frei zugänglich sind.
+Wenn sie das nicht wollen, dann dürfen sie keinen solchen Account anlegen.
+Sie haben dann immer noch Zugang zu meinen LV-Dateien, können Gutgub aber nicht selbst zum Speichern verwenden.
 
 Außerdem müssen sie `git` von hier       https://github.com/git-for-windows/git/releases/download/v2.19.1.windows.1/Git-2.19.1-64-bit.exe    
 installieren.
