@@ -34,8 +34,8 @@ Zur Installation gehen sie so vor
 		*  Associate R with .RData file 
 	* Führen sie das Installationsprogramm `Rtools35.exe` aus und akzeptieren sie die Standard-Einstellungen
 	* Führen sie das Installationsprogramm `RStudio-1.2.1070.exe` aus
-	* Wenn die Installatoion fertig ist starten sie `RStudio` vom Start Menu.
-	* Nachdem RStudio läuft erscheint ein Icon im Taskbar. Klicken sie aif das Icon unf führen sie `Pin to Taskbar` aus.
+	* Wenn die Installation fertig ist starten sie `RStudio` vom Start Menu.
+	* Nachdem RStudio läuft erscheint ein Icon im Taskbar. Klicken sie auf das Icon und führen sie `Pin to Taskbar` aus.
 
 Die Installation der Programme ist jetzt abgeschlossen, aber es müssen noch einige Zusatzpakete in R bzw. RStudio installiert werden.
 
@@ -106,9 +106,9 @@ Führen sie dann noch (in einem Command-Fenster) folgenden Befehl aus:
 
 #### Andere Betriebssysteme
 
-Wenn sie Linux oder MacOS verwenden Installieren sie bitte R und Rstudio
+Wenn sie Linux oder MacOS verwenden Installieren sie bitte R und RStudio
 von den genannten Websites (es gibt dort auch Versionen für diese Betriebssysteme).    
-Eine Github account sollten sie ebenfalls anlegen.   
+Einen Github Account sollten sie ebenfalls anlegen.   
 Git müssen sie ebenfalls installieren. Zur Installation ziehen
 sie das Internet zu Raten.     
 Unter MacOS ist für solche Utilities die Installation von homebrew (https://brew.sh) sehr zu empfehlen.
