@@ -78,6 +78,12 @@ pkgs_to_install <- c(
 "rayshader"
 )
 ```
+Danach führen sie folgenden Befehl aus 
+
+```
+devtools::install_github("thomasp85/patchwork")
+```
+
 
 und führen sie diesen Code aus (dazu einfach Return drücken)
 
