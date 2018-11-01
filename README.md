@@ -73,7 +73,8 @@ pkgs_to_install <- c(
 "ggspatial", 
 "libwgeom", 
 "rworldmap", 
-"rworldxtra"
+"rworldxtra",
+"rayshader"
 )
 ```
 
