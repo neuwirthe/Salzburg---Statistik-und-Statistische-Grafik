@@ -57,6 +57,7 @@ pkgs_to_install <- c(
 "ggrepel",
 "ggwordcloud",
 "scales",
+"patchwork",
 "sf",
 "maptools",
 "rgeos",
