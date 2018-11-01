@@ -65,21 +65,29 @@ pkgs_to_install <- c(
 "writexl",
 "Dykstra",
 "quadprog",
-"devtools"
+"devtools",
+"cowplot", 
+"googleway", 
+"ggplot2", 
+"ggrepel", 
+"ggspatial", 
+"libwgeom", 
+"rworldmap", 
+"rworldxtra"
 )
 ```
 
 und führen sie diesen Code aus (dazu einfach Return drücken)
+
+
+Wenn sie auf ihrem Rechner `TeX` noch nicht installiert haben, dann
+führen sie auch folgenden Code aus:
 
 ```
 install.packages("tinytex")
 library(tinytex)
 install_tinytex()
 ```
-
-Wenn sie auf ihrem Rechner `TeX` noch nicht installiert haben, dann
-führen sie auch folgenden Code aus:
-
 
 
 
