@@ -76,7 +76,8 @@ pkgs_to_install <- c(
 "libwgeom", 
 "rworldmap", 
 "rworldxtra",
-"rayshader"
+"rayshader",
+"shiny"
 )
 
 install.packages(pkgs_to_install)
