@@ -1,4 +1,4 @@
-# Statistik und Statistische Grafik
+# Statistik und Statistische Grafik<br>mit Office- und Statistiksoftware
 
 ### LV Nr 405.365
 
@@ -77,7 +77,8 @@ pkgs_to_install <- c(
 "rworldmap", 
 "rworldxtra",
 "rayshader",
-"shiny"
+"shiny",
+"reprex"
 )
 
 install.packages(pkgs_to_install)
