@@ -125,6 +125,12 @@ installieren.
 Führen sie dann noch (in einem Command-Fenster) folgenden Befehl aus:   
 `git config --global credential.helper wincred`
 
+### Twitter
+
+Wenn sie noch keinen Twitter-account haben legen sie bitte einen an.     
+Schicken sie mir bitte in beiden Fällen ihren Twitter-handle.
+
+
 
 #### Andere Betriebssysteme
 
