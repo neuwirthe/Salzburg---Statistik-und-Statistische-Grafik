@@ -78,8 +78,7 @@ pkgs_to_install <- c(
 "rworldxtra",
 "rayshader",
 "shiny",
-"reprex",
-"rtweet"
+"reprex"
 )
 
 install.packages(pkgs_to_install)
@@ -88,6 +87,7 @@ Danach führen sie folgenden Befehl aus
 
 ```
 devtools::install_github("thomasp85/patchwork")
+devtools::install_github("mkearney/rtweet")
 ```
 
 
