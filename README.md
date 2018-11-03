@@ -78,7 +78,9 @@ pkgs_to_install <- c(
 "rworldxtra",
 "rayshader",
 "shiny",
-"reprex"
+"reprex",
+"datapasta",
+"tidytext"
 )
 
 install.packages(pkgs_to_install)
