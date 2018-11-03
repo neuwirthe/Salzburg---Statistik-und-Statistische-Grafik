@@ -128,15 +128,16 @@ Führen sie dann noch (in einem Command-Fenster) folgenden Befehl aus:
 `git config --global credential.helper wincred`
 
 Wir benötigen auch Daten. Dazu laden sie bitte folgende Zip-Dateien auf ihren Rechner (wir werden die Daten in der LV benötigen).
-*Achtung*: Die erste Datei ist relaiv groß, ca 200 MB
+*Achtung*: Die erste Datei ist relativ groß, ca 200 MB
 
   * https://myfiles.sbg.ac.at/index.php/s/8A4ShFkQ1E0liPq
   * https://myfiles.sbg.ac.at/index.php/s/7AtXdO0hqKziOaD
 
 ### Twitter
 
-Wenn sie noch keinen Twitter-account haben legen sie bitte einen an.     
-Schicken sie mir bitte in beiden Fällen ihren Twitter-handle.
+Wenn sie noch keinen Twitter-Account haben legen sie bitte einen an.     
+Schicken sie mir bitte in beiden Fällen ihren Twitter-handle. Und folgen sie mir auf Twitter, mein Twitter-Handle ist `neuwirthe`
+
 
 
 
