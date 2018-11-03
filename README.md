@@ -127,6 +127,11 @@ installieren.
 Führen sie dann noch (in einem Command-Fenster) folgenden Befehl aus:   
 `git config --global credential.helper wincred`
 
+Wir benötigen auch Daten. Dazu laden sie bitte folgende Zip-Datei auf ihren Rechner:
+
+https://myfiles.sbg.ac.at/index.php/s/8A4ShFkQ1E0liPq
+
+
 ### Twitter
 
 Wenn sie noch keinen Twitter-account haben legen sie bitte einen an.     
