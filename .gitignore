@@ -8,6 +8,6 @@ PISAdata/*
 Studdata
 Studdata/*
 .DS_Store
+*.html
 Wetter/*.html
-ENDemo*
-EN*.Rmd
+ENDemoTitanic.Rmd
