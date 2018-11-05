@@ -1,0 +1,33 @@
+---
+title: "Temperatur Bad Vöslau 2018"
+author: "Erich Neuwirth"
+date: "10/1/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+library(stationaRy)
+library(ggplot2)
+library(magrittr)
+library(dplyr)
+library(knitr)
+library(lubridate)
+library(tidyr)
+salzburg <- "113500-99999"
+```
+```{r}
+filename <- file.path("Wetter","salzburg_freisaal.RData")
+if (file.exists(filename))){
+  load(filename)
+} else {}
+met_data <- get_isd_station_data(station_id = salzburg,
+                                 startyear = 1995,
+                                 endyear=2018)
+save(met_data,file=file.path("Wetter","salzburg_freisaal.RData"))
+}
+```

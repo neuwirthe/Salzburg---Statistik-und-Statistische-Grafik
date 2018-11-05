@@ -1,0 +1,61 @@
+---
+title: "R Terlan"
+output: html_notebook
+---
+
+
+```{r}
+library(stationaRy)
+```
+
+```{r}
+get_isd_stations(lower_lat = 45.4,
+                 upper_lat = 46.6,
+                 lower_lon = 11.1,
+                 upper_lon = 11.5)
+```
+
+```{r}
+get_isd_stations(station_id="voeslau")
+```
+
+Suche Gegend Bad Vöslau
+
+```{r}
+get_isd_stations(lower_lat = 47.5,
+                 upper_lat = 48.5,
+                 lower_lon = 16.0,
+                 upper_lon = 16.3)
+```
+
+
+Suche Gegend St. Pölten
+
+
+```{r}
+get_isd_stations(lower_lat = 48.0,
+                 upper_lat = 48.3,
+                 lower_lon = 15.0,
+                 upper_lon = 15.8)
+```
+
+Suche Gegend Salzburg
+
+
+```{r}
+get_isd_stations(lower_lat = 47.5,
+                 upper_lat = 48.3,
+                 lower_lon = 12.5,
+                 upper_lon = 13.5)
+```
+
+
+Suche Gegen Wien
+
+```{r}
+get_isd_stations(lower_lat = 45.4,
+                 upper_lat = 46.6,
+                 lower_lon = 11.1,
+                 upper_lon = 11.5)
+```
+
