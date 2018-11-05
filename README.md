@@ -73,9 +73,9 @@ pkgs_to_install <- c(
 "ggplot2", 
 "ggrepel", 
 "ggspatial", 
-"libwgeom", 
 "rworldmap", 
 "rworldxtra",
+"lwgeom",
 "rayshader",
 "shiny",
 "reprex",
@@ -84,7 +84,10 @@ pkgs_to_install <- c(
 "lubridate"
 )
 
-install.packages(pkgs_to_install)
+for (pkg in pkgs_to_install){
+if (!(pkg %in% rownames(installed.packages())))
+install.packages(pkg)
+}
 ```
 Danach führen sie folgenden Befehl aus 
 
