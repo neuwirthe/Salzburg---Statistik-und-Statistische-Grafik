@@ -144,7 +144,11 @@ Wenn sie noch keinen Twitter-Account haben legen sie bitte einen an.
 Schicken sie mir bitte in beiden Fällen ihren Twitter-handle. Und folgen sie mir auf Twitter, mein Twitter-Handle ist `neuwirthe`
 
 
+### Maxima
 
+Hilfreich für schnelle mathematische Zwischenrechnungen ist auch Maxima. Bitte istallieren sie das auch, falls sie es noch nicht installiert haben.
+
+https://sourceforge.net/projects/maxima/files/Maxima-Windows/5.42.1-Windows/
 
 #### Andere Betriebssysteme
 
