@@ -9,3 +9,5 @@ Studdata
 Studdata/*
 .DS_Store
 Wetter/*.html
+ENDemo*
+EN*.Rmd
