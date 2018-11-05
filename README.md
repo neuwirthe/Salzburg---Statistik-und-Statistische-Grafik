@@ -81,7 +81,8 @@ pkgs_to_install <- c(
 "reprex",
 "datapasta",
 "tidytext",
-"lubridate"
+"lubridate",
+"Hmisc"
 )
 
 for (pkg in pkgs_to_install){
