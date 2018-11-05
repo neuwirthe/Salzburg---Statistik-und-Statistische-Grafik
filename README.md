@@ -46,8 +46,7 @@ pkgs_to_install <- c(
 "tidyverse",
 "magrittr",
 "ggmosaic",
-"ggforce",
-"gganimate",
+"ggforce",,
 "ggtree",
 "ggExtra",
 "gridExtra",
@@ -94,6 +93,7 @@ Danach führen sie folgenden Befehl aus
 
 ```
 devtools::install_github("thomasp85/patchwork")
+devtools::install_github("thomasp85/gganimate")
 devtools::install_github("mkearney/rtweet")
 devtools::install_github("rich-iannone/stationaRy")
 ```
