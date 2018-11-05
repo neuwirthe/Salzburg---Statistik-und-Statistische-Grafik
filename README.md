@@ -80,7 +80,8 @@ pkgs_to_install <- c(
 "shiny",
 "reprex",
 "datapasta",
-"tidytext"
+"tidytext",
+"lubridate"
 )
 
 install.packages(pkgs_to_install)
@@ -90,6 +91,7 @@ Danach führen sie folgenden Befehl aus
 ```
 devtools::install_github("thomasp85/patchwork")
 devtools::install_github("mkearney/rtweet")
+devtools::install_github("rich-iannone/stationaRy")
 ```
 
 
