@@ -36,9 +36,22 @@ f_3(x)=\sqrt{x}
 
 $$
 
+```{r}
+f1 <- function(x)x^2
+f2 <- function(x)x+2
+f3 <- function(x)sqrt(x)
+
+f3(f2(f1(3)))
+
+3 %>% f1() %>% f2() %>% f3()
+
+```
 
 ```{r}
-titanic %>% slice(1:8) %>% kable
+kable(slice(titanic,1:8))
+titanic %>% 
+  slice(1:8)  %>%
+  kable()
 ```
 
 
@@ -48,7 +61,7 @@ titanic %>% slice(1:8) %>% kable
 ```{r}
 titanic %>% group_by(Survived) %>%
   summarise(Anzahl=sum(n)) %>%
-  mutate(Anteil=percent(Anzahl/sum(Anzahl))) %>% 
+  mutate(Anteil=percent(Anzahl/sum(Anzahl)))  %>% 
   kable()
 
 ```
@@ -74,11 +87,11 @@ titanic %>%
 ```{r sex}
 titanic %>% 
   ggplot() +
-  geom_mosaic(aes(x=product(Sex),weight=n,fill=Survived),divider = ddecker()) +
-  guides(fill=guide_legend(reverse=TRUE)) +
-  labs(x="",y="") +
-  theme(
-        axis.ticks.x = element_blank())
+  geom_mosaic(aes(x=product(Sex),weight=n,fill=Survived),divider = ddecker())  +
+  guides(fill=guide_legend(reverse=TRUE))  +
+  labs(x="",y="")  +
+#  theme_bw() +
+  theme( axis.ticks.x = element_blank()) 
   
 ```
 
