@@ -46,7 +46,7 @@ pkgs_to_install <- c(
 "tidyverse",
 "magrittr",
 "ggmosaic",
-"ggforce",,
+"ggforce",
 "ggtree",
 "ggExtra",
 "gridExtra",
