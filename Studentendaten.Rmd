@@ -1,0 +1,96 @@
+---
+title: "Studentendate - Erste Analyse"
+author: "Erich Neuwirth"
+date: "11/6/2018"
+output:
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+library(tidyverse)
+library(magrittr)
+library(readxl)
+```
+
+
+```{r}
+studdata <- read_excel(file.path("Studdata","StudDat.xls"))
+```
+
+## Struktur der Daten
+
+
+```{r}
+studdata %>% str()
+```
+```{r}
+studdata %>%
+  filter(!is.na(Gender)) %>%
+  group_by(Gender) %>%
+  summarise(Gewicht=mean(Weight,na.rm=TRUE),
+            Größe=mean(Size,na.rm=TRUE))
+```
+
+```{r}
+studdata %>%
+  ggplot(aes(x=Size)) +
+  geom_histogram()
+```
+
+
+```{r}
+studdata %>%
+  ggplot(aes(x=Size)) +
+  geom_density()
+```
+
+
+```{r}
+studdata %>%
+  filter(!is.na(Gender)) %>%
+  ggplot(aes(x=Size,fill=Gender)) +
+  geom_density(alpha=0.2) +
+  labs(x="Größe",y="") +
+  scale_y_continuous(labels=NULL) +
+  theme(axis.ticks.y = element_blank())
+
+```
+
+```{r}
+studdata %>%
+  filter(!is.na(Gender)) %>%
+  ggplot(aes(x=Size,y=Weight)) +
+  geom_point(alpha=0.1)
+```
+```{r}
+studdata %>%
+  filter(!is.na(Gender)) %>%
+  ggplot(aes(x=Size,y=Weight)) +
+  geom_jitter(size=0.3)
+```
+```{r}
+studdata %>%
+  filter(!is.na(Gender)) %>%
+  ggplot(aes(x=Size,y=Weight,color=Gender)) +
+  geom_jitter(size=0.3)
+```
+
+```{r}
+studdata %>%
+  filter(!is.na(Gender)) %>%
+  ggplot(aes(x=Size,y=Weight,color=Gender)) +
+  geom_jitter(size=0.3) +
+  geom_density2d()
+```
+```{r}
+studdata %>%
+  filter(!is.na(Gender)) %>%
+  ggplot(aes(x=Size,y=Weight,color=Gender)) +
+  geom_jitter(size=0.3) +
+  geom_smooth(method="lm")
+```
