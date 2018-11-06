@@ -1,0 +1,168 @@
+---
+title: "Was kann Statistik heutzutage"
+author: "Erich Neuwirth"
+date: "11/6/2018"
+output: slidy_presentation
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE)
+```
+
+```{r packages}
+library(tidyverse)
+library(magrittr)
+library(ggmosaic)
+library(scales)
+library(knitr)
+```
+
+## Der Untergang der Titanic
+
+Der Drehbuchschreiber eine Films über dir Titanic will wissen, wie die Überlebensrate in verschiedenen Gruppen von Passagieren und der Mannschaft war, damit er plausible Geschichten über Personen schreiben kann.
+
+Es sind Daten über den Untergang der Titanic verfügbar.
+
+```{r}
+titanic <- Titanic %>% as_tibble()
+```
+
+```{r}
+titanic %>% slice(1:8) %>% kable
+```
+
+
+
+## Überlebensrate generell
+
+```{r}
+titanic %>% group_by(Survived) %>%
+  summarise(Anzahl=sum(n)) %>%
+  mutate(Anteil=percent(Anzahl/sum(Anzahl))) %>% 
+  kable()
+
+```
+
+
+## Überlebensrate generell
+
+
+
+```{r plot1}
+titanic %>% 
+  ggplot() +
+  geom_mosaic(aes(x=product(Survived),weight=n,fill=Survived),divider = c("vspine")) +
+  guides(fill=guide_legend(reverse=TRUE)) +
+  labs(x="",y="") +
+  theme(axis.text.x = element_blank(),
+        axis.ticks.x = element_blank())
+  
+```
+
+## Überlebensrate nach Geschlecht
+
+```{r sex}
+titanic %>% 
+  ggplot() +
+  geom_mosaic(aes(x=product(Sex),weight=n,fill=Survived),divider = ddecker()) +
+  guides(fill=guide_legend(reverse=TRUE)) +
+  labs(x="",y="") +
+  theme(
+        axis.ticks.x = element_blank())
+  
+```
+
+
+
+## Überlebensrate nach Alter
+
+```{r age}
+titanic %>% 
+  ggplot() +
+  geom_mosaic(aes(x=product(Age),weight=n,fill=Survived),divider = ddecker()) +
+  guides(fill=guide_legend(reverse=TRUE)) +
+  labs(x="",y="") +
+  theme(
+        axis.ticks.x = element_blank())
+  
+```
+
+## Geschlecht und Alter
+
+```{r sex_age}
+titanic %>% 
+  ggplot() +
+  geom_mosaic(aes(x=product(Sex,Age),weight=n,fill=Survived),divider = ddecker()) +
+  guides(fill=guide_legend(reverse=TRUE)) +
+  labs(x="",y="") +
+  theme(axis.text.x=element_text(angle=90),
+        axis.ticks.x = element_blank()) 
+  
+```
+
+
+## Klasse
+
+```{r class}
+titanic %>% filter(Age=="Adult") %>% 
+  ggplot() +
+  geom_mosaic(aes(x=product(Class),weight=n,fill=Survived),divider = ddecker()) +
+  guides(fill=guide_legend(reverse=TRUE)) +
+  labs(x="",y="") +
+  theme(axis.text.x=element_text(angle=90),
+        axis.ticks.x = element_blank()) 
+  
+```
+
+## Klasse und Geschlecht
+
+```{r sex_class}
+titanic %>% filter(Age=="Adult") %>% 
+  ggplot() +
+  geom_mosaic(aes(x=product(Sex,Class),weight=n,fill=Survived),divider = ddecker()) +
+  guides(fill=guide_legend(reverse=TRUE)) +
+  labs(x="",y="") +
+  theme(axis.text.x=element_text(angle=90),
+        axis.ticks.x = element_blank()) 
+  
+```
+
+## Geschlecht und Klasse
+
+```{r class_sex}
+titanic %>% filter(Age=="Adult") %>% 
+  ggplot() +
+  geom_mosaic(aes(x=product(Class,Sex),weight=n,fill=Survived),divider = ddecker()) +
+  guides(fill=guide_legend(reverse=TRUE)) +
+  labs(x="",y="") +
+  theme(axis.text.x=element_text(angle=90),
+        axis.ticks.x = element_blank()) 
+  
+```
+
+## Geschlecht,  Klasse und Alter
+
+```{r class_sex_age}
+titanic %>% 
+  ggplot() +
+  geom_mosaic(aes(x=product(Class,Sex,Age),weight=n,fill=Survived),divider = ddecker()) +
+  guides(fill=guide_legend(reverse=TRUE)) +
+  labs(x="",y="") +
+  theme(axis.text.x=element_text(angle=90),
+        axis.ticks.x = element_blank()) 
+  
+```
+
+## Nur Kinder
+
+```{r children}
+titanic %>% filter(Age=="Child" & Class != "Crew") %>%
+  ggplot() +
+  geom_mosaic(aes(x=product(Class,Sex),weight=n,fill=Survived),divider = ddecker()) +
+  guides(fill=guide_legend(reverse=TRUE)) +
+  labs(x="",y="") +
+  theme(axis.text.x=element_text(angle=90),
+        axis.ticks.x = element_blank()) 
+  
+```
