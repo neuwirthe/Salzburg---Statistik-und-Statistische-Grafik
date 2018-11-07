@@ -29,23 +29,6 @@ titanic <- Titanic %>% as_tibble()
 ```
 
 
-$$
-f_1(x)= x^2 \\
-f_2(x)=x+2 \\
-f_3(x)=\sqrt{x}
-
-$$
-
-```{r}
-f1 <- function(x)x^2
-f2 <- function(x)x+2
-f3 <- function(x)sqrt(x)
-
-f3(f2(f1(3)))
-
-3 %>% f1() %>% f2() %>% f3()
-
-```
 
 ```{r}
 kable(slice(titanic,1:8))
@@ -187,4 +170,32 @@ titanic %>% filter(Age=="Child" & Class != "Crew") %>%
   theme(axis.text.x=element_text(angle=90),
         axis.ticks.x = element_blank()) 
   
+```
+
+
+## Mathemattische Formelm
+
+$$f_1(x)= x^2$$
+
+$$f_2(x)=x+2$$
+
+$$f_3(x)=\sqrt{x}$$
+
+$$f_3(f_2(f_1(x))) = \sqrt{x^2+2}$$
+$$ f1 : x \mapsto x^2 $$
+
+$$ f2 : x \mapsto x+2 $$
+$$ f3 : x \mapsto \sqrt{x}$$
+
+
+$$ x \overset{f_1}{\mapsto} x^2  \overset{f_2}{\mapsto} x^2+2  \overset{f_3}{\mapsto} \sqrt{x^2+2}$$
+
+```{r math, echo=TRUE}
+f1 <- function(x)x^2
+f2 <- function(x)x+2
+f3 <- function(x)sqrt(x)
+
+f3(f2(f1(3)))
+
+3 %>% f1() %>% f2() %>% f3()
 ```
