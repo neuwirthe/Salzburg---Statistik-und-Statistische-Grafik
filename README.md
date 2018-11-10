@@ -55,6 +55,10 @@ pkgs_to_install <- c(
 "ggmap",
 "ggrepel",
 "ggwordcloud",
+"broom",
+"tweenr",
+"maptools",
+"viridis",
 "egg",
 "scales",
 "sf",
@@ -80,7 +84,8 @@ pkgs_to_install <- c(
 "datapasta",
 "tidytext",
 "lubridate",
-"Hmisc"
+"Hmisc",
+"cartogram"
 )
 
 for (pkg in pkgs_to_install){
