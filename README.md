@@ -8,7 +8,7 @@
 Bitte bringen sie in die LV ihren Laptop mit, wir werden vieles gemeinsam während der LV machen.
 
 #### Software
-Installieren sie folgende Software:
+Installieren sie folgende Software (es ist wichtig, dass sie die neuesten Versionen installieren):
 
 R (von https://cran.r-project.org)
 RStudio (von https://www.rstudio.com/products/rstudio/download/preview/)
@@ -158,9 +158,9 @@ https://sourceforge.net/projects/maxima/files/Maxima-Windows/5.42.1-Windows/
 
 #### Andere Betriebssysteme
 
-Wenn sie Linux oder MacOS verwenden Installieren sie bitte R und RStudio
+Wenn sie Linux oder MacOS verwenden installieren sie bitte R (Version 3.5.1) und RStudio (Version 1.2.1091-1 Preview)
 von den genannten Websites (es gibt dort auch Versionen für diese Betriebssysteme).    
-Einen Github Account sollten sie ebenfalls anlegen.   
+  
 Git müssen sie ebenfalls installieren. Zur Installation ziehen
 sie das Internet zu Raten.     
 Unter MacOS ist für solche Utilities die Installation von homebrew (https://brew.sh) sehr zu empfehlen.
