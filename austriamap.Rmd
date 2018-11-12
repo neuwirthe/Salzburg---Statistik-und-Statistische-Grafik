@@ -1,0 +1,52 @@
+---
+title: "Landkarten"
+output: html_notebook
+---
+
+
+```{r}
+library(tidyverse)
+library(magrittr)
+library(sf)
+```
+
+```{r}
+bezmap <- read_sf(file.path("Wahlen","Landkarten","bezirke_95_geo.json"))
+autborder <- read_sf(file.path("Wahlen","Landkarten","nur_oesterreich.json"))
+blborder <-  read_sf(file.path("Wahlen","Landkarten","laender_95_geo.json"))
+bezmap_wien <- read_sf(file.path("Wahlen","Landkarten","Bezirke mit Wien.geojson"))
+```
+
+```{r}
+bezmap %>% 
+ggplot() + 
+  geom_sf() 
+```
+```{r}
+bezmap %>% 
+ggplot() + 
+  geom_sf(fill="white") +
+  theme_minimal() +
+  theme(axis.text.x=element_blank(),
+        axis.ticks.x=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank()
+        )
+```
+
+
+```{r}
+bezmap %>% mutate(bl=factor(floor(as.numeric(iso)/100))) %>%
+  mutate(ddd=as.numeric(iso)) %>%
+ggplot() + 
+  geom_sf(aes(fill=ddd)) +
+  geom_sf(data=autborder,size=3,alpha=0) +
+  geom_sf(data=blborder,size=1.5,alpha=0) +
+  scale_x_continuous(breaks=c(0,180)) +
+  scale_y_continuous(breaks=c(0,180)) +
+#  scale_fill_brewer(palette = "Set1") +
+  scale_fill_gradient2("Bezirk",midpoint=501,low="red",mid="white",high="blue") +
+  
+  theme(axis.ticks = element_blank())
+```
+
