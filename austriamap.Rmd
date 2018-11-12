@@ -8,13 +8,15 @@ output: html_notebook
 library(tidyverse)
 library(magrittr)
 library(sf)
+library(readxl)
+library(pracma)
+library(cartogram)
 ```
 
 ```{r}
 bezmap <- read_sf(file.path("Wahlen","Landkarten","bezirke_95_geo.json"))
 autborder <- read_sf(file.path("Wahlen","Landkarten","nur_oesterreich.json"))
 blborder <-  read_sf(file.path("Wahlen","Landkarten","laender_95_geo.json"))
-bezmap_wien <- read_sf(file.path("Wahlen","Landkarten","Bezirke mit Wien.geojson"))
 ```
 
 ```{r}
@@ -48,5 +50,32 @@ ggplot() +
   scale_fill_gradient2("Bezirk",midpoint=501,low="red",mid="white",high="blue") +
   
   theme(axis.ticks = element_blank())
+```
+
+```{r}
+bpw_wb <- read_excel(file.path("Wahlen","Endgueltiges_Gesamtergebnis_BPW16_2WG_WH.xlsx"),
+                    skip=1) %>% select(c(1,3)) %>%
+  rename(iso=1,wb=2) %>%
+  mutate(iso=str_sub(iso,2)) %>%
+  filter(!is.na(as.numeric(iso))) %>%
+  mutate(iso=as.numeric(iso)) %>%
+  filter(mod(iso,100)==0) %>%
+  mutate(iso=floor(iso/100)) %>%
+  mutate(iso=as.character(iso))
+```
+
+
+```{r}
+bezmap %<>% left_join(bpw_wb)
+```
+```{r}
+wb <- bezmap$wb
+bezmap  %>% as_Spatial() %>% cartogram(weight="wb",5)%>% st_as_sf() -> bezcarto
+```
+```{r}
+bezmap
+bezcarto
+plot(bezcarto)
+plot(bezmap)
 ```
 
