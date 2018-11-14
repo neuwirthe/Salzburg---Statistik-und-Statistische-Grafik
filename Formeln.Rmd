@@ -1,0 +1,14 @@
+---
+title: "Formeln"
+author: "Erich Neuwirth"
+date: "11/13/2018"
+output: html_document
+---
+
+$$
+F(n,k) \\
+F(1,1)=10 \\
+F(1,k)=0 \text{ für } k>n\\
+F(n,1)=10\text{ für } n>1 \\
+F(n,k)=k F(n-1,k)+(11-k)F(n-1,k-1)
+$$
