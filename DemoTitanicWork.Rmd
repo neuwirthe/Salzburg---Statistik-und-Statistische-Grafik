@@ -173,7 +173,7 @@ titanic %>% filter(Age=="Child" & Class != "Crew") %>%
 ```
 
 
-## Mathemattische Formelm
+## Mathematische Formeln
 
 $$f_1(x)= x^2$$
 
@@ -190,12 +190,30 @@ $$ f3 : x \mapsto \sqrt{x}$$
 
 $$ x \overset{f_1}{\mapsto} x^2  \overset{f_2}{\mapsto} x^2+2  \overset{f_3}{\mapsto} \sqrt{x^2+2}$$
 
-```{r math, echo=TRUE}
+## Piping im Programm
+
+```{r math1, echo=TRUE}
 f1 <- function(x)x^2
 f2 <- function(x)x+2
 f3 <- function(x)sqrt(x)
+```
 
+```{r math2, echo=TRUE}
 f3(f2(f1(3)))
+```
 
+```{r math3, echo=TRUE}
 3 %>% f1() %>% f2() %>% f3()
+```
+
+## Piping im Programm
+
+```{r echo = TRUE}
+kable(slice(titanic,1:3))
+```
+
+```{r echo = TRUE}
+titanic %>% 
+  slice(1:3)  %>%
+  kable()
 ```
