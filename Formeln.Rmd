@@ -5,10 +5,49 @@ date: "11/13/2018"
 output: html_document
 ---
 
+```{r}
+library(magrittr)
+```
+
+
 $$
-F(n,k) \\
-F(1,1)=10 \\
-F(1,k)=0 \text{ für } k>n\\
-F(n,1)=10\text{ für } n>1 \\
-F(n,k)=k F(n-1,k)+(11-k)F(n-1,k-1)
+\begin{align}
+F(n,k) &\\
+F(1,1)&=10 \\
+F(1,k) & = 0 &\text{ für } k>n\\
+F(n,1) & = 10 &\text{ für } n>1 \\
+F(n,k) & = k F(n-1,k)+(11-k)F(n-1,k-1) &\text{ sonst } 
+\end{align}
 $$
+
+
+### Explaining piping
+
+
+$$
+\begin{align}
+f_1(x) & =x^2 \\
+f_2(x) & =x+2 \\
+f_3(x) & =\sqrt{x}
+\end{align}
+$$
+
+$$
+f_3(f_2(f_1(x)))=\sqrt{x^2+2} \\
+\\
+\\
+\\
+x \stackrel{f_1}{\mapsto} x^2 \stackrel{f_2}{\mapsto} x^2+2 \stackrel{f_3}{\mapsto}\sqrt{x^2+2}
+$$
+
+
+```{r}
+f1 <- function(x) x^2
+f2 <- function(x) x+2
+f3 <- function(x) sqrt(x)
+```
+```{r}
+f3(f2(f1(5)))
+5 %>% f1() %>% f2() %>% f3()
+```
+
