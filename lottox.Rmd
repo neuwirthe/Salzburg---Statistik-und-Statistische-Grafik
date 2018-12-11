@@ -49,11 +49,64 @@ lotto_aut %>%
 ```
 
 ```{r}
-probs <- 
+probs_xl <- 
   read_excel(file.path("Lottodata",
                        "Probs_EN.xlsx")) %>%
-  mutate(probs=choose(6,gruen)*choose(1,gelb)*choose(38,rot)/choose(45,6)) %>%
-  select(Rang,Name,probs)
+  mutate(probs=choose(6,gruen)*choose(1,gelb)*
+           choose(38,rot)/choose(45,6)) %>%
+  select(Rang_Nr,Rang,probs)
+probs_xl
+```
+```{r}
+lotto_aut %>%
+  select(Tipps,Wochentag,ProWoche,JackpotDavor,
+         starts_with("Anzahl")) %>%
+  mutate(TippsNeu=ifelse(!is.na(AnzahlZZ),Tipps,0)) ->
+  probs_work
+```
+
+```{r}
+probs_work %>%
+  select(starts_with("Anzahl")) %>%
+  gather(Rang,Anzahl) %>%
+  group_by(Rang) %>%
+  summarise(Anzahl=sum(Anzahl,na.rm=TRUE)) -> probs_rang
+probs_rang
+```
+```{r}
+probs_work %>%
+  select(Tipps,TippsNeu) %>%
+  summarise(Tipps=sum(Tipps),TippsNeu=sum(TippsNeu)) -> TippZahl
+
+TippZahl
+```
+```{r}
+Tipps_alt_neu <- function(Rang){
+  ifelse(Rang %in% c("Anzahl3M","Anzahl4M","AnzahlZZ"), 
+     TippZahl[[1,2]],TippZahl[[1,1]])
+}
+```
+
+```{r}
+probs_rang %>%
+  mutate(Tipps=Tipps_alt_neu(Rang)) %>% 
+  mutate(prob_emp=Anzahl/Tipps) %>% 
+  mutate(Rang=str_sub(Rang,7)) -> probs
+
+```
+```{r}
 probs
+```
+```{r}
+left_join(probs,probs_xl)
+```
+```{r}
+lotto_aut %>%
+  select(JackpotDavor,Tipps,Anzahl6) %>%
+  group_by(JackpotDavor) %>%
+  summarise(Tipps=sum(Tipps),
+            Sechser=sum(Anzahl6),Runden=n()) %>%
+  mutate(TippsProRunde=Tipps/Runden)
+  
 ```
 
