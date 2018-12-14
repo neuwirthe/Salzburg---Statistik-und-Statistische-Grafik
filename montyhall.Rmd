@@ -16,14 +16,12 @@ library(pracma)
 game <- function(changer=FALSE){
   door_car    <- 1 + floor(3*runif(1))
   door_player <- 1 + floor(3*runif(1))
-  if(changer) {
-    if (door_player != door_car) {
-      door_host <- setdiff(1:3,c(door_player,door_car))
-    } else {
-      door_host <- setdiff(1:3,door_player)[1+floor(2*runif(1))]
-    } 
-    door_player <- setdiff(1:3,c(door_player,door_host))
-  }
+  if (door_player != door_car) {
+    door_host <- setdiff(1:3,c(door_player,door_car))
+  } else {
+    door_host <- setdiff(1:3,door_player)[1+floor(2*runif(1))]
+  } 
+  if(changer)  door_player <- setdiff(1:3,c(door_player,door_host)) 
   if (door_player == door_car) return(1) else return(0)
 }
 ```
