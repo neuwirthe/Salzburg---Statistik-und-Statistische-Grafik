@@ -149,6 +149,20 @@ pv + ph
 ```
 
 
+```{r}
+bezmap_mit_wienbez %>% 
+  left_join(vdb_hofer_2w) %>%
+  ggplot() +
+  geom_sf(aes(fill=vdb)) +
+  scale_fill_gradient2(high=muted("green"),low=muted("blue"),midpoint=0.5) +
+  theme(axis.text=element_blank(),
+        axis.ticks=element_blank(),
+        plot.background = element_rect(fill="white"),
+        panel.background = element_rect(fill="white")) -> pv
+pv
+```
+
+
 ```{r, warning=FALSE, message=FALSE}
 bezmap_wien %>%
   left_join(vdb_hofer_2w) %>%
@@ -190,4 +204,16 @@ pv1 + ph1
 
 ```{r}
 pv1 + ph1 + plot_layout(ncol=1) 
+```
+```{r}
+bezwiencarto %>% 
+  left_join(vdb_hofer_2w) %>%
+  ggplot() +
+  geom_sf(aes(fill=vdb)) +
+  scale_fill_gradient2(high=muted("green"),low=muted("blue"),midpoint=0.5) +
+  theme(axis.text=element_blank(),
+        axis.ticks=element_blank(),
+        plot.background = element_rect(fill="white"),
+        panel.background = element_rect(fill="white")) -> pv
+pv
 ```
