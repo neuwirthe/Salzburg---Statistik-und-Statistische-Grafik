@@ -1,0 +1,150 @@
+---
+title: "Vorbereitung Wahlen"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+library(magrittr)
+library(scales)
+library(readxl)
+library(pracma)
+
+library(sf)
+library(patchwork)
+```
+
+# BPW Ergebnisse
+
+```{r}
+bpw2w_raw <-
+  read_excel(file.path("Wahlen", "Endgueltiges_Gesamtergebnis_BPW16_2WG_WH.xlsx"),
+             skip = 1)  %>% select(-8, -10)
+names(bpw2w_raw) <-
+  c("GKZ", "name", "wb", "abg", "ung", "glt", "Hofer", "VdB")
+bpw2_raw <-
+  read_excel(file.path("Wahlen", "Endgueltiges_Gesamtergebnis_BPW16_2WG.xlsx"),
+             skip = 1)  %>% select(-8, -10)
+names(bpw2_raw) <-
+  c("GKZ", "name", "wb", "abg", "ung", "glt", "Hofer", "VdB")
+bpw1_raw <-
+  read_excel(file.path("Wahlen", "Endgueltiges_Gesamtergebnis_BPW16_1WG.xlsx"),
+             skip = 1)  %>% select(-8, -10, -12, -14, -16, -18)
+names(bpw1_raw) <-
+  c(
+    "GKZ", "name", "wb", "abg", "ung", "glt",
+    "Griss", "Hofer", "Hundsdorfer", "Khol", "Lugner","VdB"
+  )
+```
+
+
+NRW  Ergebnisse
+
+```{r}
+nrw13_raw <-
+  read_excel(file.path("Wahlen", "NRW13_endgueltiges_Gesamtergebnis.xlsx"),
+             skip = 1)  %>% select(1:3,5:7,seq(8,20,2))  
+names(nrw13_raw) <-
+  c(
+    "GKZ", "name", "wb", "abg", "ung", "glt",
+    "SPÖ","ÖVP","FPÖ","BZÖ","GRÜNE","FRANK","NEOS")
+
+nrw17_raw <-
+  read_excel(file.path("Wahlen", "NRW17_endgueltiges_Gesamtergebnis.xlsx"),
+             skip = 1)  %>% select(1:7,seq(9,17,2))  
+
+names(nrw17_raw) <-
+  c(
+    "GKZ", "name", "wb", "abg", "ung", "glt",
+    "SPÖ","ÖVP","FPÖ","GRÜNE","NEOS","PILZ")
+```
+
+# Filterfunktionen
+
+
+```{r}
+is_gemeinde <- function(GKZ){
+  str_sub(GKZ,2) %>%
+  str_detect(paste0("(",paste0(LETTERS,collapse="|"),")")) -> l1
+  ifelse(!l1,
+     as.numeric(str_sub(GKZ,2)),
+     NA) -> num
+  ifelse(is.na(num),
+         FALSE,
+         mod(num,100) != 0 & mod(num,100) != 99) 
+}
+
+is_bezirk <- function(GKZ){
+  str_sub(GKZ,2) %>%
+  str_detect(paste0("(",paste0(LETTERS,collapse="|"),")")) -> l1
+  ifelse(!l1,
+     as.numeric(str_sub(GKZ,2)),
+     NA) -> num
+  ifelse(is.na(num),
+         FALSE,
+         mod(num,100) == 0 & mod(floor(num/100),100) != 0) 
+}
+
+is_bundesland <- function(GKZ){
+  str_sub(GKZ,2) %>%
+  str_detect(paste0("(",paste0(LETTERS,collapse="|"),")")) -> l1
+  ifelse(!l1,
+     as.numeric(str_sub(GKZ,2)),
+     NA) -> num
+  ifelse(is.na(num),
+         FALSE,
+         mod(num,10000) == 0 ) 
+}
+```
+
+# Landkarten
+
+
+
+```{r}
+bezmap <- read_sf(file.path("Wahlen","Landkarten","bezirke_95_geo.json"))
+autborder <- read_sf(file.path("Wahlen","Landkarten","nur_oesterreich.json"))
+blborder <-  read_sf(file.path("Wahlen","Landkarten","laender_95_geo.json"))
+bezmap_mit_wienbez <- read_sf(file.path("Wahlen","Landkarten","Bezirke mit Wien.geojson"))
+```
+
+
+```{r}
+bpw2w_raw %>%
+  filter(is_bezirk(GKZ)) %>%
+  mutate(iso=floor(as.numeric(str_sub(GKZ,2))/100)) %>% 
+  mutate(vdb=VdB/glt,hofer=Hofer/glt) %>%
+  select(iso,vdb,hofer) -> vdb_hofer_2w
+```
+
+```{r}
+bezmap_mit_wienbez %>% 
+  left_join(vdb_hofer_2w) %>%
+  ggplot() +
+  geom_sf(aes(fill=vdb)) +
+  scale_fill_gradient2(high=muted("green"),midpoint=0.5) +
+  theme(axis.text=element_blank(),
+        axis.ticks=element_blank(),
+        plot.background = element_rect(fill="white"),
+        panel.background = element_rect(fill="white")) -> pv
+pv
+```
+
+
+```{r}
+bezmap_mit_wienbez %>% 
+  left_join(vdb_hofer_2w) %>%
+  ggplot() +
+  geom_sf(aes(fill=hofer)) +
+  scale_fill_gradient2(high=muted("blue"),midpoint=0.5) +
+  theme(axis.text=element_blank(),
+        axis.ticks=element_blank(),
+        plot.background = element_rect(fill="white"),
+        panel.background = element_rect(fill="white")) ->
+  ph
+ph
+```
+```{r}
+pv + ph
+```
+

@@ -54,8 +54,7 @@ ggplot() +
 
 ```{r}
 bpw_wb <- read_excel(file.path("Wahlen","Endgueltiges_Gesamtergebnis_BPW16_2WG_WH.xlsx"),
-                    skip=1) 
-%>% select(c(1,3)) %>%
+                    skip=1) %>% select(c(1,3)) %>%
   rename(iso=1,wb=2) %>%
   mutate(iso=str_sub(iso,2)) %>%
   filter(!is.na(as.numeric(iso))) %>%
@@ -88,12 +87,57 @@ bezwien <- read_sf(file.path("Wahlen","Landkarten","Bezirke mit Wien.geojson")) 
 ```{r}
 plot(bezwien)
 ```
+
 ```{r}
-bpw_wb_raw <- read_excel(file.path("Wahlen","Endgueltiges_Gesamtergebnis_BPW16_2WG_WH.xlsx"),
+bpw2w_wb_raw <- read_excel(file.path("Wahlen","Endgueltiges_Gesamtergebnis_BPW16_2WG_WH.xlsx"),
                     skip=1)  %>% select(-8,-10)  
-names(bpw_wb_raw) <- c("iso","name","wb","abg","ung","glt","Hofer","VdB")
+names(bpw2w_wb_raw) <- c("iso","name","wb","abg","ung","glt","Hofer","VdB")
+bpw2_wb_raw <- read_excel(file.path("Wahlen","Endgueltiges_Gesamtergebnis_BPW16_2WG.xlsx"),
+                    skip=1)  %>% select(-8,-10)  
+names(bpw2_wb_raw) <- c("iso","name","wb","abg","ung","glt","Hofer","VdB")
+bpw1_wb_raw <- read_excel(file.path("Wahlen","Endgueltiges_Gesamtergebnis_BPW16_1WG.xlsx"),
+                    skip=1)  %>% select(-8,-10,-12,-14,-16,-18)  
+names(bpw1_wb_raw) <- c("iso","name","wb","abg","ung","glt","Griss","Hofer","Hundstorder","Khol","Lugner","VdB")
 ```
 
+```{r}
+is_gemeinde <- function(iso){
+  str_sub(iso,2) %>%
+  str_detect(paste0("(",paste0(LETTERS,collapse="|"),")")) -> l1
+  ifelse(!l1,
+     as.numeric(str_sub(iso,2)),
+     NA) -> num
+  ifelse(is.na(num),
+         FALSE,
+         mod(num,100) != 0 & mod(num,100) != 99) 
+}
+
+is_bezirk <- function(iso){
+  str_sub(iso,2) %>%
+  str_detect(paste0("(",paste0(LETTERS,collapse="|"),")")) -> l1
+  ifelse(!l1,
+     as.numeric(str_sub(iso,2)),
+     NA) -> num
+  ifelse(is.na(num),
+         FALSE,
+         mod(num,100) == 0 & mod(floor(num/100),100) != 0) 
+}
+```
+
+
+```{r}
+bpw1_wb_raw %>% filter(is_gemeinde(iso)) %>% tail()
+```
+
+
+```{r}
+bpw1_wb_raw %>% filter(is_bezirk(iso)) %$% iso
+```
+
+```{r}
+is_gemeinde(bpw1_wb_raw$iso)
+
+```
 
 ```{r}
 bpw_wb <- bpw_wb_raw %>%
@@ -105,6 +149,21 @@ bpw_wb <- bpw_wb_raw %>%
   mutate(iso=as.integer(iso)) %>% filter(mod(iso,100)!=0) %>%
   filter(iso!=324) %>%arrange(iso)
 ```
+
+
+
+```{r}
+bpw2w <- bpw_wb_raw %>%
+  mutate(iso=str_sub(iso,2)) %>%
+  filter(!is.na(as.numeric(iso))) %>%
+  mutate(iso=as.integer(iso)) %>%
+  filter(mod(iso,100)==0) %>%
+  mutate(iso=floor(iso/100)) %>%
+  mutate(iso=as.integer(iso)) %>% filter(mod(iso,100)!=0) %>%
+  filter(iso!=324) %>%arrange(iso)
+```
+
+
 
 
 ```{r}
@@ -151,3 +210,7 @@ ggplot() +
         axis.ticks.y=element_blank()
         )
 ```
+```{r}
+bpw_bp_raw
+```
+
