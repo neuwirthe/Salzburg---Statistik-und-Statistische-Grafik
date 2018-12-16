@@ -10,6 +10,7 @@ library(scales)
 library(readxl)
 library(pracma)
 
+library(cartogram)
 library(sf)
 library(patchwork)
 ```
@@ -34,7 +35,7 @@ names(bpw1_raw) <-
   c(
     "GKZ", "name", "wb", "abg", "ung", "glt",
     "Griss", "Hofer", "Hundsdorfer", "Khol", "Lugner","VdB"
-  )
+    )
 ```
 
 
@@ -164,7 +165,7 @@ pv
 
 
 ```{r, warning=FALSE, message=FALSE}
-bezmap_wien %>%
+bezmap_mit_wienbez %>%
   left_join(vdb_hofer_2w) %>%
   as_Spatial() %>% cartogram_cont(weight="wb",20) %>% st_as_sf() -> bezwiencarto
 ```
@@ -217,3 +218,23 @@ bezwiencarto %>%
         panel.background = element_rect(fill="white")) -> pv
 pv
 ```
+
+```{r}
+my_df <- data_frame(
+  name = c("Bad Vöslau", "Salzburg"),
+  province = c("Niederösterreich", "Salzburg"),
+  y = c(47.96694, 47.8),
+  x = c(16.21444, 13.03333)
+)
+
+
+bezmap_mit_wienbez %>%
+  ggplot() +
+  geom_sf(fill = "white") +
+  geom_point(aes(x, y),
+             size = 2,
+             data = my_df,
+             color = "red") +
+  geom_line(aes(x, y),data=my_df)
+```
+
