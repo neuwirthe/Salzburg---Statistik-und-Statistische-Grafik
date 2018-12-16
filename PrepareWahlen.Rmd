@@ -114,7 +114,7 @@ bpw2w_raw %>%
   filter(is_bezirk(GKZ)) %>%
   mutate(iso=floor(as.numeric(str_sub(GKZ,2))/100)) %>% 
   mutate(vdb=VdB/glt,hofer=Hofer/glt) %>%
-  select(iso,vdb,hofer) -> vdb_hofer_2w
+  select(iso,wb,vdb,hofer) -> vdb_hofer_2w
 ```
 
 ```{r}
@@ -148,3 +148,46 @@ ph
 pv + ph
 ```
 
+
+```{r, warning=FALSE, message=FALSE}
+bezmap_wien %>%
+  left_join(vdb_hofer_2w) %>%
+  as_Spatial() %>% cartogram_cont(weight="wb",20) %>% st_as_sf() -> bezwiencarto
+```
+
+```{r}
+bezwiencarto %>% 
+  left_join(vdb_hofer_2w) %>%
+  ggplot() +
+  geom_sf(aes(fill=vdb)) +
+  scale_fill_gradient2(high=muted("green"),midpoint=0.5) +
+  theme(axis.text=element_blank(),
+        axis.ticks=element_blank(),
+        plot.background = element_rect(fill="white"),
+        panel.background = element_rect(fill="white")) -> pv1
+pv1
+```
+
+```{r}
+bezwiencarto %>% 
+  left_join(vdb_hofer_2w) %>%
+  ggplot() +
+  geom_sf(aes(fill=hofer)) +
+  scale_fill_gradient2(high=muted("blue"),midpoint=0.5) +
+  theme(axis.text=element_blank(),
+        axis.ticks=element_blank(),
+        plot.background = element_rect(fill="white"),
+        panel.background = element_rect(fill="white")) ->
+  ph1
+ph1
+```
+
+
+```{r}
+pv1 + ph1 
+```
+
+
+```{r}
+pv1 + ph1 + plot_layout(ncol=1) 
+```
