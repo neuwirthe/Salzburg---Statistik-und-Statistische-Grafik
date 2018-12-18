@@ -56,3 +56,149 @@ names(nrw17_raw) <-
     "GKZ", "name", "wb", "abg", "ung", "glt",
     "SPÖ","ÖVP","FPÖ","GRÜNE","NEOS","PILZ")
 ```
+
+
+# Filterfunktionen
+
+
+```{r}
+is_gemeinde <- function(GKZ){
+  str_sub(GKZ,2) %>%
+  str_detect(paste0("(",paste0(LETTERS,collapse="|"),")")) -> l1
+  ifelse(!l1,
+     as.numeric(str_sub(GKZ,2)),
+     NA) -> num
+  ifelse(is.na(num),
+         FALSE,
+         mod(num,100) != 0 & mod(num,100) != 99) 
+}
+
+is_bezirk <- function(GKZ){
+  str_sub(GKZ,2) %>%
+  str_detect(paste0("(",paste0(LETTERS,collapse="|"),")")) -> l1
+  ifelse(!l1,
+     as.numeric(str_sub(GKZ,2)),
+     NA) -> num
+  ifelse(is.na(num),
+         FALSE,
+         mod(num,100) == 0 & mod(floor(num/100),100) != 0) 
+}
+
+is_bundesland <- function(GKZ){
+  str_sub(GKZ,2) %>%
+  str_detect(paste0("(",paste0(LETTERS,collapse="|"),")")) -> l1
+  ifelse(!l1,
+     as.numeric(str_sub(GKZ,2)),
+     NA) -> num
+  ifelse(is.na(num),
+         FALSE,
+         mod(num,10000) == 0 ) 
+}
+```
+
+```{r}
+bpw2_bez <-
+  bpw2_raw %>%
+  filter(is_bezirk(GKZ))
+bpw2w_bez <-
+  bpw2w_raw %>%
+  filter(is_bezirk(GKZ))
+```
+
+```{r}
+bpw2_bez 
+```
+```{r}
+bpw2_combined <-
+  left_join(bpw2_bez,bpw2w_bez,by="GKZ")
+```
+```{r}
+bpw2_combined 
+```
+
+```{r}
+bpw2_combined %>%
+  mutate(wbdiff=wb.y-wb.x,
+         wbd_ant=wbdiff/wb.y) %>%
+  ggplot(aes(x=wbd_ant)) +
+  geom_density() +
+```
+
+
+```{r}
+geom_vline(xintercept = 0,color="red") +
+  scale_x_continuous(labels=function(x)paste0(100*x,"%"))
+```
+
+```{r}
+bpw2_combined %>%
+  summarise(alt=sum(wb.x),neu=sum(wb.y))
+```
+```{r}
+nrw13_long <-
+nrw13_raw %>% 
+  filter(is_bezirk(GKZ)) %>%
+  mutate_at(vars(SPÖ:FPÖ),funs(ant_13=./wb)) %>%
+  select(GKZ,ends_with("ant_13")) %>%
+  gather(Partei_13,NRW13,-GKZ)
+```
+```{r}
+nrw17_long <-
+nrw17_raw %>% 
+  filter(is_bezirk(GKZ)) %>%
+  mutate_at(vars(SPÖ:FPÖ),funs(ant_17=./wb)) %>%
+  select(GKZ,ends_with("ant_17")) %>%
+  gather(Partei_17,NRW17,-GKZ)
+```
+
+
+```{r}
+nrw1317 <-
+  left_join(nrw13_long,nrw17_long)
+```
+```{r}
+nrw1317 %>%
+  na.omit() %>% 
+  ggplot(aes(x=NRW13,y=NRW17)) +
+  geom_point() +
+  geom_smooth() +
+  facet_grid(Partei_17 ~ Partei_13)
+```
+```{r}
+nrw13_ant<-
+nrw13_raw %>% 
+  filter(is_bezirk(GKZ)) %>%
+  mutate_at(vars(SPÖ:FPÖ),funs(ant_13=./wb)) %>%
+  mutate(rest_ant_13=1-SPÖ_ant_13-ÖVP_ant_13- FPÖ_ant_13) %>%
+  select(GKZ,ends_with("ant_13"))  
+
+```
+```{r}
+nrw17_ant<-
+nrw17_raw %>% 
+  filter(is_bezirk(GKZ)) %>%
+  mutate_at(vars(SPÖ:FPÖ),funs(ant_17=./wb)) %>%
+  mutate(rest_ant_17=1-SPÖ_ant_17-ÖVP_ant_17- FPÖ_ant_17) %>%
+  select(GKZ,wb,ends_with("ant_17"))  
+
+```
+```{r}
+nrw1317_ant <-
+  left_join(nrw13_ant,nrw17_ant)
+```
+```{r}
+nrw1317_ant %$% lm(SPÖ_ant_17 ~ SPÖ_ant_13 - 1, weight=wb)
+```
+
+```{r}
+nrw1317_ant %$% lm(ÖVP_ant_17 ~ SPÖ_ant_13 +ÖVP_ant_13 + FPÖ_ant_13 + rest_ant_13 - 1, weight=wb)
+```
+
+```{r}
+nrw1317_ant %$% lm(FPÖ_ant_17 ~ SPÖ_ant_13 +ÖVP_ant_13 + FPÖ_ant_13 + rest_ant_13 - 1, weight=wb) -> fp_model
+```
+
+```{r}
+fp_model$residuals
+```
+
