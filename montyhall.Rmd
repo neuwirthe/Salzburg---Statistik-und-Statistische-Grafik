@@ -31,5 +31,5 @@ replicate(1000,game()) %>% sum()
 ```
 
 ```{r}
-replicate(1000,game(TRUE)) %>% sum()
+replicate(10000,game(TRUE)) %>% sum()
 ```
