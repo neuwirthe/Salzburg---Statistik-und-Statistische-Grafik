@@ -304,7 +304,7 @@ nrw1317_gem <-
 ```{r, warning=FALSE, message=FALSE}
 gemeinden %>%
   left_join(nrw17_gem) %>%
-  as_Spatial() %>% cartogram_cont(weight="wb",3) %>% st_as_sf() -> 
+  as_Spatial() %>% cartogram_cont(weight="wb",1) %>% st_as_sf() -> 
   gemeinden_carto
 ```
 
