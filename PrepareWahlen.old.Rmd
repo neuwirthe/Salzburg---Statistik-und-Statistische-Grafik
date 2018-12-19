@@ -9,12 +9,37 @@ library(magrittr)
 library(scales)
 library(readxl)
 library(pracma)
+
+library(cartogram)
 library(sf)
 library(patchwork)
 ```
 
 # BPW Ergebnisse
 
+
+```{r}
+theme_map <- function(...) {
+  theme_minimal() +
+  theme(
+#    text = element_text(family = "Ubuntu Regular", color = "#22211d"),
+    axis.line = element_blank(),
+    axis.text.x = element_blank(),
+    axis.text.y = element_blank(),
+    axis.ticks = element_blank(),
+    axis.title.x = element_blank(),
+    axis.title.y = element_blank(),
+    # panel.grid.minor = element_line(color = "#ebebe5", size = 0.2),
+    panel.grid.major = element_line(color = "#ebebe5", size = 0.2),
+    panel.grid.minor = element_blank(),
+    plot.background = element_rect(fill = "#f5f5f2", color = NA), 
+    panel.background = element_rect(fill = "#f5f5f2", color = NA), 
+    legend.background = element_rect(fill = "#f5f5f2", color = NA),
+    panel.border = element_blank(),
+    ...
+  )
+}
+```
 
 ```{r}
 bpw2w_raw <-
@@ -58,14 +83,6 @@ names(nrw17_raw) <-
     "GKZ", "name", "wb", "abg", "ung", "glt",
     "SPÖ","ÖVP","FPÖ","GRÜNE","NEOS","PILZ")
 ```
-
-
-NRW 13 umgelegt auf Gemeine und Bezirksgrenzen bei NRW 17
-
-Durch Neustrukturierung von Gemeinden und Bezirken in NÖ, OÖ und Stmk
-passen die Gemeindekennzahlen (GKZ) von NRW13 und NRW17 nicht ganz zusammen.
-Die Datei `nrw13_gem_adjusted.RData` enthält angepasste Daten, die direkt
-mit NRW17 verknüpft werden können.
 
 
 ```{r}
@@ -124,33 +141,9 @@ bezmap <- read_sf(file.path("Wahlen","Landkarten","bezirke_95_geo.json"))
 autborder <- read_sf(file.path("Wahlen","Landkarten","nur_oesterreich.json"))
 blborder <-  read_sf(file.path("Wahlen","Landkarten","laender_95_geo.json"))
 bezmap_mit_wienbez <- read_sf(file.path("Wahlen","Landkarten","Bezirke mit Wien.geojson"))
-bezwiencarto <- read_sf(file.path("Wahlen","Landkarten","bezwiencarto.json"))
 gemeinden <- read_sf(file.path("Wahlen","Landkarten","gemeinden_mit_wiener_bezirken.json"))
+
 gemeinden_carto <- read_sf(file.path("Wahlen","Landkarten","gemeinden_carto.json"))
-```
-
-
-```{r}
-theme_map <- function(...) {
-  theme_minimal() +
-  theme(
-#    text = element_text(family = "Ubuntu Regular", color = "#22211d"),
-    axis.line = element_blank(),
-    axis.text.x = element_blank(),
-    axis.text.y = element_blank(),
-    axis.ticks = element_blank(),
-    axis.title.x = element_blank(),
-    axis.title.y = element_blank(),
-    # panel.grid.minor = element_line(color = "#ebebe5", size = 0.2),
-    panel.grid.major = element_line(color = "#ebebe5", size = 0.2),
-    panel.grid.minor = element_blank(),
-    plot.background = element_rect(fill = "#f5f5f2", color = NA), 
-    panel.background = element_rect(fill = "#f5f5f2", color = NA), 
-    legend.background = element_rect(fill = "#f5f5f2", color = NA),
-    panel.border = element_blank(),
-    ...
-  )
-}
 ```
 
 
@@ -208,6 +201,16 @@ pv
 ```
 
 
+```{r, warning=FALSE, message=FALSE}
+bezmap_mit_wienbez %>%
+  left_join(vdb_hofer_2w) %>%
+  as_Spatial() %>% cartogram_cont(weight="wb") %>% st_as_sf() -> bezwiencarto
+```
+
+```{r}
+bezwiencarto %>% str()
+bezwiencarto %>% select(-(wb:hofer)) %>% geojson_write()
+```
 
 ```{r}
 bezwiencarto %>% 
@@ -305,6 +308,36 @@ nrw1317_gem <-
     nrw17_gem,by="iso")
 ```
 
+```{r, warning=FALSE, message=FALSE}
+gemeinden %>%
+  left_join(nrw17_gem) %>%
+  as_Spatial() %>% cartogram_cont(weight="wb") %>% st_as_sf()  %>%
+  gemeinden_carto
+```
+
+```{r}
+gemeinden_carto %<>% select(-(GKZ:PILZ))
+gemeinden_carto %>% str()                              
+```
+
+```{r, warning=FALSE, message=FALSE}
+save(gemeinden_carto,file="gemeinden_carto.RData")
+```
+
+```{r}
+
+  geojson_write(gemeinden_carto)
+
+```
+
+
+```{r}
+gemeinden_carto %>% str()
+```
+
+```{r}
+gemeinden_carto %>% select(SPÖ,geometry) %>% plot()
+```
 
 ```{r}
 signed_percent <- function(x,digits=1,width=4){
@@ -313,6 +346,8 @@ signed_percent <- function(x,digits=1,width=4){
   str_pad(paste0(prefix,format(100*x,digits),"%"),
           width=width,pad=" ")
 }
+  
+signed_percent(0.12,width=5)
 ```
 
 
@@ -341,6 +376,7 @@ gemeinden %>%
                        high="red",mid="white",midpoint=0,
                        labels=signed_percent,
                        breaks=seq(-0.25,0.2,0.05)) +
+#                       breaks=seq(-0.3,0.3,0.05)) +
  theme_map() 
 ```
 ```{r}
@@ -374,23 +410,21 @@ gemeinden %>%
 gemeinden %>% 
   left_join(nrw1317_gem) %>%
   mutate(NEOS=NEOS.y-NEOS.x) %>%
-  filter(NEOS > -0.1) %>% 
   ggplot() +
   geom_sf(aes(fill=NEOS),lwd=0) +
-  geom_sf(data=autborder,fill=NA) +
+    geom_sf(data=autborder,fill=NA) +
   scale_fill_gradient2(low="blue",
                        high=muted("pink"),mid="white",midpoint=0,
                        labels=signed_percent) +
   theme_map() 
 ```
 
-```{r}
+```{}
 gemeinden_carto %>% 
   left_join(nrw1317_gem) %>%
   mutate(ÖVP=ÖVP.y-ÖVP.x) %>%
   ggplot() +
-  geom_sf(aes(fill=ÖVP),lwd=0) +
-
+  geom_sf(aes(fill=ÖVP)) +
   scale_fill_gradient2(low=muted("red"),
                        high="turquoise4",mid="white",midpoint=0) +
   theme_map() 
