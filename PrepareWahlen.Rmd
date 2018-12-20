@@ -125,6 +125,7 @@ autborder <- read_sf(file.path("Wahlen","Landkarten","nur_oesterreich.json"))
 blborder <-  read_sf(file.path("Wahlen","Landkarten","laender_95_geo.json"))
 bezmap_mit_wienbez <- read_sf(file.path("Wahlen","Landkarten","Bezirke mit Wien.geojson"))
 bezwiencarto <- read_sf(file.path("Wahlen","Landkarten","bezwiencarto.json"))
+bezwiencarto_border <- read_sf(file.path("Wahlen","Landkarten","bezwiencarto_border.json"))
 gemeinden <- read_sf(file.path("Wahlen","Landkarten","gemeinden_mit_wiener_bezirken.json"))
 gemeinden_carto <- read_sf(file.path("Wahlen","Landkarten","gemeinden_carto.json"))
 ```
@@ -166,7 +167,8 @@ bpw2w_raw %>%
 bezmap_mit_wienbez %>% 
   left_join(vdb_hofer_2w) %>%
   ggplot() +
-  geom_sf(aes(fill=vdb)) +
+  geom_sf(aes(fill=vdb),lwd=0) +
+  geom_sf(data=autborder,fill=NA) + 
   scale_fill_gradient2(high=muted("green"),midpoint=0.5) +
   theme(axis.text=element_blank(),
         axis.ticks=element_blank(),
@@ -213,7 +215,8 @@ pv
 bezwiencarto %>% 
   left_join(vdb_hofer_2w) %>%
   ggplot() +
-  geom_sf(aes(fill=vdb)) +
+  geom_sf(aes(fill=vdb),lwd=0) +
+  geom_sf(data=bezwiencarto_border,fill=NA) + 
   scale_fill_gradient2(high=muted("green"),midpoint=0.5) +
   theme(axis.text=element_blank(),
         axis.ticks=element_blank(),
@@ -294,105 +297,5 @@ nrw13_gem_adjusted %>%
   mutate_at(vars(SPÖ:NEOS),funs(./wb)) %>%
   mutate(iso=as.numeric(str_sub(GKZ,2))) -> 
   nrw13_gem
-```
-
-
-```{r}
-nrw1317_gem <- 
-  left_join( 
-    (nrw13_gem %>%
-       mutate(iso=GKZ)),
-    nrw17_gem,by="iso")
-```
-
-
-```{r}
-signed_percent <- function(x,digits=1,width=4){
-  prefix <- ifelse(x>0,"+","")
-  prefix <- ifelse(x==0,"±",prefix)
-  str_pad(paste0(prefix,format(100*x,digits),"%"),
-          width=width,pad=" ")
-}
-```
-
-
-```{r}
-gemeinden %>% 
-  left_join(nrw1317_gem) %>%
-  mutate(ÖVP=ÖVP.y-ÖVP.x) %>%
-  ggplot() +
-  geom_sf(aes(fill=ÖVP),lwd=0) +
-  geom_sf(data=autborder,fill=NA) +
-  scale_fill_gradient2(low=muted("red"),
-                       high="turquoise4",mid="white",midpoint=0,
-                       labels=signed_percent,
-                       breaks=seq(-0.2,0.2,0.05)) +
-  theme_map() 
-```
-
-```{r}
-gemeinden %>% 
-  left_join(nrw1317_gem) %>%
-  mutate(SPÖ=SPÖ.y-SPÖ.x) %>%
-  ggplot() +
-  geom_sf(aes(fill=SPÖ),lwd=0) +
-  geom_sf(data=autborder,fill=NA) +
-  scale_fill_gradient2(low="blue",
-                       high="red",mid="white",midpoint=0,
-                       labels=signed_percent,
-                       breaks=seq(-0.25,0.2,0.05)) +
- theme_map() 
-```
-```{r}
-gemeinden %>% 
-  left_join(nrw1317_gem) %>%
-  mutate(FPÖ=FPÖ.y-FPÖ.x) %>%
-  ggplot() +
-  geom_sf(aes(fill=FPÖ),lwd=0) +
-  geom_sf(data=autborder,fill=NA) +
-  scale_fill_gradient2(low="red",
-                       high="blue",mid="white",midpoint=0,
-                       labels=signed_percent,
-                       breaks=seq(-0.1,0.2,0.05)) +
-  theme_map() 
-```
-```{r}
-gemeinden %>% 
-  left_join(nrw1317_gem) %>%
-  mutate(GRÜNE=GRÜNE.y-GRÜNE.x) %>%
-  ggplot() +
-  geom_sf(aes(fill=GRÜNE),lwd=0) +
-  geom_sf(data=autborder,fill=NA) +
-  scale_fill_gradient2(low="red",
-                       high="green",mid="white",midpoint=0,
-                       labels=signed_percent,
-                       breaks=seq(-0.1,0.1,0.05)) +
-  theme_map() 
-```
-
-```{r}
-gemeinden %>% 
-  left_join(nrw1317_gem) %>%
-  mutate(NEOS=NEOS.y-NEOS.x) %>%
-  filter(NEOS > -0.1) %>% 
-  ggplot() +
-  geom_sf(aes(fill=NEOS),lwd=0) +
-  geom_sf(data=autborder,fill=NA) +
-  scale_fill_gradient2(low="blue",
-                       high=muted("pink"),mid="white",midpoint=0,
-                       labels=signed_percent) +
-  theme_map() 
-```
-
-```{r}
-gemeinden_carto %>% 
-  left_join(nrw1317_gem) %>%
-  mutate(ÖVP=ÖVP.y-ÖVP.x) %>%
-  ggplot() +
-  geom_sf(aes(fill=ÖVP),lwd=0) +
-
-  scale_fill_gradient2(low=muted("red"),
-                       high="turquoise4",mid="white",midpoint=0) +
-  theme_map() 
 ```
 
