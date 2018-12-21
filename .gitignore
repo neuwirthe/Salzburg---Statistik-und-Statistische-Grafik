@@ -9,6 +9,7 @@ Studdata
 Studdata/*
 .DS_Store
 *.html
+*.ng.html
 Wetter/*.html
 ENDemoTitanic.Rmd
 ~*.*
