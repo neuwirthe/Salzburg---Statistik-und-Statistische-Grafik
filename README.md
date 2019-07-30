@@ -18,13 +18,13 @@ Unter Windows tun sie dazu folgendes:
 
 Laden sie folgende Dateien herunter:
 
-  * https://cran.r-project.org/bin/windows/base/R-3.5.1-win.exe
-  * https://s3.amazonaws.com/rstudio-ide-build/desktop/windows/RStudio-1.2.1070.exe
+  * https://cran.r-project.org/bin/windows/base/R-3.6.2-win.exe
+  * https://s3.amazonaws.com/rstudio-ide-build/desktop/windows/RStudio-1.2.1511.exe
   * https://cran.r-project.org/bin/windows/Rtools/Rtools35.exe
 
 Zur Installation gehen sie so vor
 
-  * Führen sie das Installationsprogramm heruntergeladene `R-3.5.1-win.exe` aus   
+  * Führen sie das Installationsprogramm heruntergeladene `R-3.6.2-win.exe` aus   
   * Im Installationsdialog dieses Programm machen sie folgendes:   
     -  Customize Startup Options
 		*  SDI (separate Windows)
@@ -33,7 +33,7 @@ Zur Installation gehen sie so vor
 		*  Save version number in registry
 		*  Associate R with .RData file 
 	* Führen sie das Installationsprogramm `Rtools35.exe` aus und akzeptieren sie die Standard-Einstellungen
-	* Führen sie das Installationsprogramm `RStudio-1.2.1070.exe` aus
+	* Führen sie das Installationsprogramm `RStudio-1.2.1511.exe` aus
 	* Wenn die Installation fertig ist starten sie `RStudio` vom Start Menu.
 	* Nachdem RStudio läuft erscheint ein Icon im Taskbar. Klicken sie auf das Icon und führen sie `Pin to Taskbar` aus.
 
@@ -85,7 +85,16 @@ pkgs_to_install <- c(
 "tidytext",
 "lubridate",
 "Hmisc",
-"cartogram"
+"cartogram",
+"summarytools",
+"gganimate",
+"dplyrAssist",
+"tbltools",
+"rio",
+"csvy", 
+"fst", 
+"hexView", 
+"rmatio"
 )
 
 for (pkg in pkgs_to_install){
@@ -97,10 +106,10 @@ Danach führen sie folgenden Befehl aus
 
 ```
 devtools::install_github("thomasp85/patchwork")
-devtools::install_github("thomasp85/gganimate")
 devtools::install_github("mkearney/rtweet")
 devtools::install_github("rich-iannone/stationaRy")
 devtools::install_github("GuangchuangYu/ggtree")
+devtools::install_github("rstudio/gt")
 ```
 
 
